@@ -10,7 +10,7 @@ function displayTodos() {
   console.log("My Todos: ", todos);
 }
 
-//Assuming that all new Todos will have the default completed status as false
+//Assumption: All new Todos will have the default completed status as false.
 
 function addTodo(initialTodoText) {
   todos.push({todoText: initialTodoText,
