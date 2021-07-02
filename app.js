@@ -41,7 +41,7 @@ function toggleTodo(position) {
 
 function toggleAll() {
   
-  completedTodos = 0;
+  var completedTodos = 0;
 
   for (var i = 0; i < todos.length; i++) {
     if (todos[i].completed === true) {
