@@ -14,18 +14,11 @@ function displayTodos() {
   }
 }
 
-//Add a Todo function
-//Assumption: All new Todos will have the default completed status as false.
-// function addTodo(initialTodoText) {
-//   todos.push({todoText: initialTodoText,
-//     completed: false});
-//   displayTodos();
-// }
-
 function addTodo() {
-  initialTodoText = prompt("Enter a New Todo");
+  initialTodoText = addInput.value;
   todos.push({todoText: initialTodoText,
     completed: false});
+  addInput.value = "";
   displayTodos();
 }
 
@@ -85,3 +78,6 @@ toggleAllbutton.addEventListener("click", toggleAll);
 var addTodosButton = document.getElementById("add-todo-button");
 var addInput = document.getElementById("add-input");
 addTodosButton.addEventListener("click", addTodo);
+
+
+//
