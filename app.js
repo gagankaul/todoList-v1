@@ -9,8 +9,17 @@ var todos = [
 
 //Display Todos function
 function displayTodos() {
+  document.getElementById("todo-list-ul").innerHTML = ""; //Added to remove the li bug
+  var todoListUL = document.getElementById("todo-list-ul");
   for (var i = 0; i < todos.length; i++) {
-    console.log(todos[i]);
+    var newListItem = document.createElement("li");
+    if (todos[i].completed === false) {
+      var checkbox = " [ ] ";
+    } else {
+      var checkbox = " [X] ";
+    }
+    newListItem.innerText = checkbox + todos[i].todoText;
+    todoListUL.appendChild(newListItem);
   }
 }
 
@@ -36,9 +45,9 @@ function changeTodo(position, newTodoText) {
 
 //Delete a Todo function
 function deleteTodo(position) {
-  position = delPostInput.value;
+  position = removeInput.value;
   todos.splice(position, 1);
-  delPostInput.value = "";
+  removeInput.value = "";
   displayTodos();
 }
 
@@ -98,7 +107,7 @@ var editTodosButton = document.getElementById("edit-todo-button");
 editTodosButton.addEventListener("click", changeTodo);
 
 //Delete Todo
-var delPostInput = document.getElementById("del-todo-pos");
+var removeInput = document.getElementById("del-todo-pos");
 var delTodoButton = document.getElementById("del-todo-button");
 delTodoButton.addEventListener("click", deleteTodo);
 
