@@ -8,20 +8,32 @@ var todos = [
 ];
 
 //Display Todos function
+
 function displayTodos() {
-  document.getElementById("todo-list-ul").innerHTML = ""; //Added to remove the li bug
   var todoListUL = document.getElementById("todo-list-ul");
+
+  todoListUL.innerHTML = "";
+
   for (var i = 0; i < todos.length; i++) {
     var newListItem = document.createElement("li");
     if (todos[i].completed === false) {
-      var checkbox = " [ ] ";
+      newListItem.innerHTML = " [ ] " + todos[i].todoText;
     } else {
-      var checkbox = " [X] ";
+      newListItem.innerHTML = " [X] " + todos[i].todoText;
     }
-    newListItem.innerText = checkbox + todos[i].todoText;
+
+    var removeButton = document.createElement("button");
+    removeButton.id = "del-todo-" + i;
+    removeButton.innerHTML = "Remove";
+    newListItem.appendChild(removeButton);
+    
     todoListUL.appendChild(newListItem);
   }
 }
+
+
+displayTodos();
+
 
 //Add a New Todo function
 function addTodo() {
@@ -44,12 +56,20 @@ function changeTodo(position, newTodoText) {
 }
 
 //Delete a Todo function
+
 function deleteTodo(position) {
-  position = removeInput.value;
-  todos.splice(position, 1);
-  removeInput.value = "";
+
+  delTodoButton.remove()
   displayTodos();
 }
+
+
+// function deleteTodo(position) {
+//   position = removeInput.value;
+//   todos.splice(position, 1);
+//   removeInput.value = "";
+//   displayTodos();
+// }
 
 //Toggle a single Todo function
 function toggleTodo(position) {
@@ -86,10 +106,6 @@ function toggleAll() {
 
 //Adding Functionality to Buttons
 
-//Display Todos
-var displayTodosButton = document.getElementById("display-todos-button");
-displayTodosButton.addEventListener("click", displayTodos);
-
 //Toggle All
 var toggleAllbutton = document.getElementById("toggle-all-button");
 toggleAllbutton.addEventListener("click", toggleAll);
@@ -107,9 +123,12 @@ var editTodosButton = document.getElementById("edit-todo-button");
 editTodosButton.addEventListener("click", changeTodo);
 
 //Delete Todo
-var removeInput = document.getElementById("del-todo-pos");
-var delTodoButton = document.getElementById("del-todo-button");
+var delTodoButton = document.getElementById("del-todo-1");
 delTodoButton.addEventListener("click", deleteTodo);
+
+// var removeInput = document.getElementById("del-todo-pos");
+// var delTodoButton = document.getElementById("del-todo-button");
+// delTodoButton.addEventListener("click", deleteTodo);
 
 //Toggle Todo
 var toggleTodoPos = document.getElementById("toggle-todo-pos");
