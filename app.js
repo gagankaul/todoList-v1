@@ -15,7 +15,12 @@ function displayTodos() {
   todoListUL.innerHTML = "";
 
   for (var i = 0; i < todos.length; i++) {
+        
     var newListItem = document.createElement("li");
+
+    // var radioBox = document.createElement("input");
+    // radioBox.type = "checkbox";
+
     if (todos[i].completed === false) {
       newListItem.innerHTML = " [ ] " + todos[i].todoText;
     } else {
@@ -23,16 +28,57 @@ function displayTodos() {
     }
 
     var removeButton = document.createElement("button");
-    removeButton.id = "del-todo-" + i;
-    removeButton.innerHTML = "Remove";
-    newListItem.appendChild(removeButton);
+    removeButton.innerHTML = "x";
+    removeButton.id = "deletebtn-" + i;
+    removeButton.addEventListener("click", deleteTodo);
     
+    // newListItem.appendChild(radioBox);
+
+
+    var toggleButton = document.createElement("button");
+    toggleButton.innerHTML = "Toggle";
+    toggleButton.addEventListener("click", toggleTodo);
+    toggleButton.id = "togglebtn-" + i;
+
+    newListItem.appendChild(toggleButton)
+    newListItem.appendChild(removeButton);
     todoListUL.appendChild(newListItem);
   }
 }
 
+//Delete a Todo function
+function deleteTodo(event) {
+  var buttonID = event.currentTarget.id;
 
-displayTodos();
+// In the next line, I had earlier used "string.charAt(string.length-1)"" to grab the last character.
+// However, I found a bug in this method for todos > 9. Discarded this to use "string.prototype.split" function.
+
+  var splitID = buttonID.split("-");
+  var position = splitID[1];
+
+// A shorter way to write the above lines of code:
+// var position = event.currentTarget.id.buttonID.split("-")[1];
+  
+  todos.splice(position, 1);
+  
+  displayTodos();
+}
+
+
+//Toggle a single Todo function
+
+function toggleTodo(event) {
+  var toggleButtonID = event.currentTarget.id;  
+  var position = toggleButtonID.split("-")[1];
+
+  if (todos[position].completed === false) {
+    todos[position].completed = true;
+  } else {
+    todos[position].completed = false;
+  }
+  
+  displayTodos();
+}
 
 
 //Add a New Todo function
@@ -52,34 +98,6 @@ function changeTodo(position, newTodoText) {
   todos[position].todoText = newTodoText;
   editPosInput.value = "";
   editTextInput.value = "";
-  displayTodos();
-}
-
-//Delete a Todo function
-
-function deleteTodo(position) {
-
-  delTodoButton.remove()
-  displayTodos();
-}
-
-
-// function deleteTodo(position) {
-//   position = removeInput.value;
-//   todos.splice(position, 1);
-//   removeInput.value = "";
-//   displayTodos();
-// }
-
-//Toggle a single Todo function
-function toggleTodo(position) {
-  position = toggleTodoPos.value;
-  if (todos[position].completed === false) {
-    todos[position].completed = true;
-  } else {
-    todos[position].completed = false;
-  }
-  toggleTodoPos.value = "";
   displayTodos();
 }
 
@@ -104,6 +122,11 @@ function toggleAll() {
   displayTodos();
 }
 
+
+//Display the Todos on First Page Load
+displayTodos();
+
+
 //Adding Functionality to Buttons
 
 //Toggle All
@@ -121,16 +144,3 @@ var editPosInput = document.getElementById("edit-todo-pos");
 var editTextInput = document.getElementById("edit-todo-input");
 var editTodosButton = document.getElementById("edit-todo-button");
 editTodosButton.addEventListener("click", changeTodo);
-
-//Delete Todo
-var delTodoButton = document.getElementById("del-todo-1");
-delTodoButton.addEventListener("click", deleteTodo);
-
-// var removeInput = document.getElementById("del-todo-pos");
-// var delTodoButton = document.getElementById("del-todo-button");
-// delTodoButton.addEventListener("click", deleteTodo);
-
-//Toggle Todo
-var toggleTodoPos = document.getElementById("toggle-todo-pos");
-var toggleTodoButton = document.getElementById("toggle-todo-button");
-toggleTodoButton.addEventListener("click", toggleTodo);
