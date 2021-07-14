@@ -1,13 +1,13 @@
-//An example of functional programming in Javascript
+//An Example - Functional Programming in Javascript
 
-//Creating a todos object
+//Creating a Todos Array
 var todos = [
   {todoText:"item 1", completed:false},
   {todoText:"item 2", completed:false},
   {todoText:"item 3", completed:false}
 ];
 
-//Display Todos function
+//Display Todos Function
 
 function displayTodos() {
   var todoListUL = document.getElementById("todo-list-ul");
@@ -18,35 +18,51 @@ function displayTodos() {
         
     var newListItem = document.createElement("li");
 
-    // var radioBox = document.createElement("input");
-    // radioBox.type = "checkbox";
-
     if (todos[i].completed === false) {
       newListItem.innerHTML = " [ ] " + todos[i].todoText;
     } else {
       newListItem.innerHTML = " [X] " + todos[i].todoText;
     }
 
-    var removeButton = document.createElement("button");
-    removeButton.innerHTML = "x";
-    removeButton.id = "deletebtn-" + i;
-    removeButton.addEventListener("click", deleteTodo);
-    
-    // newListItem.appendChild(radioBox);
-
-
     var toggleButton = document.createElement("button");
     toggleButton.innerHTML = "Toggle";
     toggleButton.addEventListener("click", toggleTodo);
     toggleButton.id = "togglebtn-" + i;
 
-    newListItem.appendChild(toggleButton)
+    var editButton = document.createElement("button");
+    editButton.innerHTML = "Edit";
+    editButton.addEventListener("click", changeTodo);
+    editButton.id = "editbtn-" + i;
+
+    var removeButton = document.createElement("button");
+    removeButton.innerHTML = "x";
+    removeButton.id = "deletebtn-" + i;
+    removeButton.addEventListener("click", deleteTodo);
+
+    newListItem.appendChild(toggleButton);
+    newListItem.appendChild(editButton);
     newListItem.appendChild(removeButton);
     todoListUL.appendChild(newListItem);
   }
 }
 
+//Toggle a single Todo function
+
+function toggleTodo(event) {
+  var toggleButtonID = event.currentTarget.id;  
+  var position = toggleButtonID.split("-")[1];
+
+  if (todos[position].completed === false) {
+    todos[position].completed = true;
+  } else {
+    todos[position].completed = false;
+  }
+  
+  displayTodos();
+}
+
 //Delete a Todo function
+
 function deleteTodo(event) {
   var buttonID = event.currentTarget.id;
 
@@ -64,19 +80,15 @@ function deleteTodo(event) {
   displayTodos();
 }
 
+//Edit a Todo function
 
-//Toggle a single Todo function
+function changeTodo(event) {
+  revisedTodo = prompt("Enter the updated Todo");
 
-function toggleTodo(event) {
-  var toggleButtonID = event.currentTarget.id;  
-  var position = toggleButtonID.split("-")[1];
-
-  if (todos[position].completed === false) {
-    todos[position].completed = true;
-  } else {
-    todos[position].completed = false;
-  }
-  
+  if (revisedTodo != null && revisedTodo != "") {
+      var position = event.currentTarget.id.split("-")[1];
+      todos[position].todoText = revisedTodo;
+    }
   displayTodos();
 }
 
@@ -84,22 +96,15 @@ function toggleTodo(event) {
 //Add a New Todo function
 function addTodo() {
   initialTodoText = addInput.value;
-  todos.push({todoText: initialTodoText,
-    completed: false});
+  console.log(initialTodoText);
+  if (initialTodoText != "") {
+    todos.push({todoText: initialTodoText,
+      completed: false});
+    }
   addInput.value = "";
   displayTodos();
 }
 
-
-//Edit a Todo function
-function changeTodo(position, newTodoText) {
-  position = editPosInput.value;
-  newTodoText = editTextInput.value;
-  todos[position].todoText = newTodoText;
-  editPosInput.value = "";
-  editTextInput.value = "";
-  displayTodos();
-}
 
 //Toggle All Function
 function toggleAll() {
@@ -139,8 +144,8 @@ var addInput = document.getElementById("add-input");
 addTodosButton.addEventListener("click", addTodo);
 
 
-//Edit Todo
-var editPosInput = document.getElementById("edit-todo-pos");
-var editTextInput = document.getElementById("edit-todo-input");
-var editTodosButton = document.getElementById("edit-todo-button");
-editTodosButton.addEventListener("click", changeTodo);
+// //Edit Todo
+// var editPosInput = document.getElementById("edit-todo-pos");
+// var editTextInput = document.getElementById("edit-todo-input");
+// var editTodosButton = document.getElementById("edit-todo-button");
+// editTodosButton.addEventListener("click", changeTodo);
